@@ -10,6 +10,7 @@ The goal of this repository is not to build a complex application. It is a small
 - Standalone component setup.
 - Local reactive state with `signal`.
 - Derived state with `computed`.
+- A small English/Spanish language switcher.
 - Template control flow with `@for`.
 - Semantic HTML structure.
 - Component-level SCSS.
@@ -88,14 +89,71 @@ protected readonly visibleModules = computed(() =>
 
 This avoids storing duplicated state. The visible modules are calculated from the selected area whenever Angular needs the updated value.
 
+## Language Switcher
+
+The app includes a small English/Spanish language switcher. It is intentionally built without an external i18n library so the basic idea is easy to understand.
+
+The selected language is stored in a signal:
+
+```ts
+protected readonly selectedLanguage = signal<Language>('en');
+```
+
+The visible copy is derived from that signal:
+
+```ts
+protected readonly copy = computed(() => translations[this.selectedLanguage()]);
+```
+
+When the user clicks a language button, the signal changes:
+
+```ts
+protected selectLanguage(language: Language): void {
+  this.selectedLanguage.set(language);
+}
+```
+
+The template reads text from `copy()`:
+
+```html
+<h1>{{ copy().heroTitle }}</h1>
+```
+
+Module titles and descriptions are stored as translated values:
+
+```ts
+title: {
+  en: 'Signals for local state',
+  es: 'Signals para estado local'
+}
+```
+
+Then the template selects the right version:
+
+```html
+<h3>{{ module.title[selectedLanguage()] }}</h3>
+```
+
+This approach is useful for a learning project because the data flow is visible:
+
+1. The user clicks a language.
+2. `selectedLanguage` changes.
+3. `copy()` recalculates.
+4. Angular updates the template.
+
+For a larger production app, a dedicated i18n solution would usually be a better fit.
+
 ## Naming Approach
 
 Names are intentionally descriptive:
 
+- `selectedLanguage`: the currently selected page language.
 - `selectedArea`: the currently selected learning area.
 - `completedModules`: the number of completed modules.
+- `copy`: the translated UI text for the selected language.
 - `visibleModules`: the modules shown for the selected area.
 - `progressPercentage`: the calculated progress value.
+- `selectLanguage`: user action to change the language.
 - `selectArea`: user action to change the selected area.
 - `completeNextModule`: user action to increase progress.
 - `resetProgress`: user action to reset progress.

@@ -26,6 +26,39 @@
   min-height: 420px;
 }
 
+.language-switcher {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  color: #4b5563;
+  font-size: 0.92rem;
+  font-weight: 800;
+}
+
+.language-switcher__options {
+  display: flex;
+  gap: 8px;
+}
+
+.language-switcher__button {
+  min-height: 36px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 0 12px;
+  background: #ffffff;
+  color: #374151;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.language-switcher__button--active {
+  border-color: #0f766e;
+  background: #0f766e;
+  color: #ffffff;
+}
+
 .eyebrow {
   margin: 0;
   color: #0f766e;

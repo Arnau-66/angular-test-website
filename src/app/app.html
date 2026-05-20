@@ -1,42 +1,60 @@
 <main class="page-shell">
   <section class="hero" aria-labelledby="page-title">
     <div class="hero__content">
-      <p class="eyebrow">Angular 20 desde buenas bases</p>
-      <h1 id="page-title">Construye una pagina clara antes de hacerla compleja</h1>
+      <div class="language-switcher" [attr.aria-label]="copy().languageLabel">
+        <span>{{ copy().languageLabel }}</span>
+        <div class="language-switcher__options">
+          @for (language of languages; track language.id) {
+            <button
+              type="button"
+              class="language-switcher__button"
+              [class.language-switcher__button--active]="selectedLanguage() === language.id"
+              [attr.aria-pressed]="selectedLanguage() === language.id"
+              (click)="selectLanguage(language.id)"
+            >
+              {{ language.label }}
+            </button>
+          }
+        </div>
+      </div>
+
+      <p class="eyebrow">{{ copy().heroEyebrow }}</p>
+      <h1 id="page-title">{{ copy().heroTitle }}</h1>
       <p class="hero__summary">
-        Este ejemplo muestra una estructura sencilla, nombres legibles y estado reactivo con
-        signals. La idea es que puedas leer el proyecto como si fuera una primera clase bien
-        ordenada.
+        {{ copy().heroSummary }}
       </p>
 
-      <div class="hero__actions" aria-label="Acciones de progreso">
+      <div class="hero__actions" [attr.aria-label]="copy().progressActions">
         <button type="button" class="button button--primary" (click)="completeNextModule()">
-          Completar modulo
+          {{ copy().completeModule }}
         </button>
         <button type="button" class="button button--secondary" (click)="resetProgress()">
-          Reiniciar
+          {{ copy().reset }}
         </button>
       </div>
     </div>
 
-    <aside class="progress-panel" aria-label="Progreso del curso">
-      <span class="progress-panel__label">Progreso</span>
+    <aside class="progress-panel" [attr.aria-label]="copy().progressAria">
+      <span class="progress-panel__label">{{ copy().progress }}</span>
       <strong>{{ progressPercentage() }}%</strong>
       <div class="progress-bar" aria-hidden="true">
         <span [style.width.%]="progressPercentage()"></span>
       </div>
-      <p>{{ completedModules() }} de {{ modules.length }} modulos completados</p>
+      <p>
+        {{ completedModules() }} {{ copy().completedText }} {{ modules.length }}
+        {{ copy().completedSuffix }}
+      </p>
     </aside>
   </section>
 
-  <section class="content-grid" aria-label="Contenido principal">
+  <section class="content-grid" [attr.aria-label]="copy().mainContent">
     <article class="lesson-panel">
       <div class="section-heading">
-        <p class="eyebrow">Ruta de aprendizaje</p>
-        <h2>Filtra los modulos por etapa</h2>
+        <p class="eyebrow">{{ copy().learningPath }}</p>
+        <h2>{{ copy().filterTitle }}</h2>
       </div>
 
-      <div class="area-tabs" role="tablist" aria-label="Etapas del curso">
+      <div class="area-tabs" role="tablist" [attr.aria-label]="copy().courseStages">
         @for (area of areas; track area.id) {
           <button
             type="button"
@@ -46,7 +64,7 @@
             [attr.aria-selected]="selectedArea() === area.id"
             (click)="selectArea(area.id)"
           >
-            {{ area.label }}
+            {{ area.label[selectedLanguage()] }}
           </button>
         }
       </div>
@@ -56,23 +74,22 @@
           <article class="module-card">
             <div>
               <span class="module-card__duration">{{ module.duration }}</span>
-              <h3>{{ module.title }}</h3>
+              <h3>{{ module.title[selectedLanguage()] }}</h3>
             </div>
-            <p>{{ module.description }}</p>
+            <p>{{ module.description[selectedLanguage()] }}</p>
           </article>
         }
       </div>
     </article>
 
     <aside class="principles-panel" aria-labelledby="principles-title">
-      <p class="eyebrow">Buenas bases</p>
-      <h2 id="principles-title">Decisiones que hacen crecer mejor un proyecto</h2>
+      <p class="eyebrow">{{ copy().principlesEyebrow }}</p>
+      <h2 id="principles-title">{{ copy().principlesTitle }}</h2>
 
       <ul>
-        <li>Una carpeta `app` para la experiencia principal.</li>
-        <li>Nombres que explican intencion: `selectedArea`, `visibleModules`, `progressPercentage`.</li>
-        <li>Estado minimo con `signal` y datos derivados con `computed`.</li>
-        <li>Plantilla semantica: `main`, `section`, `article`, `aside`.</li>
+        @for (principle of copy().principles; track principle) {
+          <li>{{ principle }}</li>
+        }
       </ul>
     </aside>
   </section>
