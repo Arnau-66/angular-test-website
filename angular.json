@@ -7,7 +7,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "web-prueba-codex": {
+    "angular-test-website": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -65,10 +65,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "web-prueba-codex:build:production"
+              "buildTarget": "angular-test-website:build:production"
             },
             "development": {
-              "buildTarget": "web-prueba-codex:build:development"
+              "buildTarget": "angular-test-website:build:development"
             }
           },
           "defaultConfiguration": "development"
