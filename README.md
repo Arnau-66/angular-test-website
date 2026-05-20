@@ -1,64 +1,84 @@
-# Web Prueba Codex
+# Angular Test Website
 
-Proyecto sencillo en Angular 20 para practicar buenas bases de desarrollo web: estructura,
-nombres claros, componentes standalone y estado local con signals.
+A beginner-friendly Angular 20 project built to practice the foundations of modern Angular development.
 
-## Como ejecutar el proyecto
+The goal of this repository is not to build a complex application. It is a small learning project focused on clean structure, readable naming, standalone components, Angular signals, computed state, and basic UI organization.
 
-No necesitas instalar Angular de forma global.
+## What This Project Practices
 
-Requisitos recomendados:
+- Angular 20 project structure.
+- Standalone component setup.
+- Local reactive state with `signal`.
+- Derived state with `computed`.
+- Template control flow with `@for`.
+- Semantic HTML structure.
+- Component-level SCSS.
+- Clear naming for state, data, and user actions.
+- Basic project hygiene for a GitHub repository.
 
-- Node.js 20.19 o superior.
-- npm incluido con Node.js.
+## Getting Started
+
+You do not need to install Angular globally.
+
+Recommended requirements:
+
+- Node.js 20.19 or higher.
+- npm, included with Node.js.
+
+Install dependencies:
 
 ```bash
 npm install
+```
+
+Run the development server:
+
+```bash
 npm start
 ```
 
-Despues abre:
+Open the app in your browser:
 
 ```text
 http://localhost:4200
 ```
 
-Tambien puedes usar el CLI local del proyecto:
+You can also use the local Angular CLI through npm:
 
 ```bash
 npm run ng -- version
 ```
 
-## Estructura principal
+## Project Structure
 
 ```text
 src/
   app/
-    app.ts       Logica del componente principal
-    app.html     Plantilla HTML de la pagina
-    app.scss     Estilos propios del componente
-  styles.scss    Estilos globales de la aplicacion
+    app.ts       Main component logic
+    app.html     Main component template
+    app.scss     Main component styles
+  styles.scss    Global application styles
 ```
 
-La idea base es separar responsabilidades:
+The project keeps responsibilities separated:
 
-- `app.ts`: datos, estado y acciones.
-- `app.html`: estructura visual y binding con Angular.
-- `app.scss`: estilos de esta pantalla.
-- `styles.scss`: reglas globales que afectan a toda la aplicacion.
+- `app.ts` contains state, data, and actions.
+- `app.html` contains the page structure and Angular bindings.
+- `app.scss` contains styles for the main component.
+- `styles.scss` contains global styles shared by the application.
 
-## Signals usados
+## Angular Signals
 
-En `src/app/app.ts` hay dos signals principales:
+The main component uses `signal` for local state:
 
 ```ts
 protected readonly selectedArea = signal<CourseArea>('fundamentos');
 protected readonly completedModules = signal(1);
 ```
 
-Un `signal` guarda estado reactivo. Cuando cambia, Angular actualiza la vista donde ese valor se usa.
+A signal stores reactive state. When the value changes, Angular updates the parts of the template that depend on it.
 
-Tambien hay valores derivados con `computed`:
+The component also uses `computed` for derived state:
 
 ```ts
 protected readonly visibleModules = computed(() =>
@@ -66,59 +86,47 @@ protected readonly visibleModules = computed(() =>
 );
 ```
 
-Un `computed` sirve para calcular datos a partir de otros datos reactivos. Aqui no guardamos una segunda
-lista manualmente; Angular la recalcula cuando cambia `selectedArea`.
+This avoids storing duplicated state. The visible modules are calculated from the selected area whenever Angular needs the updated value.
 
-## Naming
+## Naming Approach
 
-Los nombres intentan decir la intencion:
+Names are intentionally descriptive:
 
-- `selectedArea`: area seleccionada ahora mismo.
-- `completedModules`: cuantos modulos se han completado.
-- `visibleModules`: modulos que deben verse segun el filtro actual.
-- `progressPercentage`: porcentaje calculado a partir del progreso.
-- `selectArea`: accion de usuario para cambiar de area.
-- `completeNextModule`: accion para avanzar el progreso.
-- `resetProgress`: accion para volver a empezar.
+- `selectedArea`: the currently selected learning area.
+- `completedModules`: the number of completed modules.
+- `visibleModules`: the modules shown for the selected area.
+- `progressPercentage`: the calculated progress value.
+- `selectArea`: user action to change the selected area.
+- `completeNextModule`: user action to increase progress.
+- `resetProgress`: user action to reset progress.
 
-Una buena regla: si un nombre necesita explicarse demasiado, probablemente se puede mejorar.
+A useful rule: if a name needs too much explanation, it can probably be improved.
 
-## Buenas bases aplicadas
+## Repository Notes
 
-- Proyecto creado con dependencias locales, no Angular global.
-- Componente standalone, que es el estilo moderno de Angular.
-- HTML semantico con `main`, `section`, `article` y `aside`.
-- Estado minimo con `signal`.
-- Datos derivados con `computed`.
-- Estilos separados por responsabilidad.
-- Tipos explicitos para reducir errores: `CourseArea` y `LearningModule`.
+This repository should include source code and lock files, but not generated folders.
 
-## Antes de subirlo a GitHub
+The `.gitignore` already excludes common generated files:
 
-Sube el codigo fuente y el `package-lock.json`, pero no subas carpetas generadas.
+- `node_modules/`
+- `dist/`
+- `.angular/cache/`
+- `coverage/`
 
-El `.gitignore` ya excluye lo importante:
-
-- `node_modules/`: dependencias instaladas localmente.
-- `dist/`: resultado de compilacion.
-- `.angular/cache/`: cache de Angular.
-- `coverage/`: reportes de tests.
-
-Otra persona podra abrir el proyecto con:
+Another developer can clone the repository and run it with:
 
 ```bash
 npm install
 npm start
 ```
 
-## Siguiente paso recomendado
+## Possible Next Steps
 
-Cuando esta base ya se entienda, lo natural seria separar la pagina en componentes pequenos:
+Once the basics are clear, the main component could be split into smaller components:
 
 - `HeroSection`
 - `ProgressPanel`
 - `ModuleTabs`
 - `ModuleCard`
 
-No lo hice todavia porque para una primera clase conviene ver el flujo completo en un solo lugar antes
-de dividirlo.
+For this first learning version, the logic is kept in one place so the full flow is easier to read.
